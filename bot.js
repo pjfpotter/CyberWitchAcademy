@@ -1,67 +1,23 @@
-console.log("On va tous mourir."); //to let me know it is running
-
 // include node fs module
 var fs = require('fs');
-
-//import discord.js and login
-const Discord = require('discord.js');
-const client = new Discord.Client();
-client.login('YOUR CLIENT KEY HERE');
-//connect to discord and let me know when you're ready to play
-client.on('ready', readyDiscord);
-
-function readyDiscord() {
-    console.log('on est prêt');
-}
 
 //import rita and parse a rita string to console to show it's working 
 var rita = require('rita');
 var rs = rita.RiString("The elephant took a bite!");
 console.log(rs.features());
 
-//load paradise lost and generate markov sentence
+//load source text and generate markov sentences
 var rm = new rita.RiMarkov(3);
 let sentence;
 rm.loadFrom('applethorn.txt', markovify);
+//use a callback so that we wait for the source to finish loading before making our markov soup
 function markovify() {
     sentence = rm.generateSentences(5000);
-    sentence = sentence.join(' ');
-    sentence = String(sentence);
+    sentence = sentence.join(' '); //Join the sentences together
+    sentence = String(sentence); //stringify them
     
-    createMyFile();
+    createMyFile(); //call the fs method that dumps the string in a text file
 };
-
-
-//import tracery.js and flatten a basic grammar to console to show it's working
-var tracery = require('tracery-grammar');
- 
-var grammar = tracery.createGrammar({
-  'animal': ['panda','fox','capybara','iguana', 'chimpanzee', 'Patrick', 'bum'],
-  'emotion': ['sad','happy','angry','jealous', 'confused', 'excited', 'foolish', 'poopy'],
-  'origin':['Hi there! I am #emotion.a# #animal#.'],
-});
- 
-grammar.addModifiers(tracery.baseEngModifiers); 
- 
-console.log(grammar.flatten('#origin#'));
-
-//scan for messages and call function when message logged
-client.on('message', gotMessage);
-
-let mortbotreplies;
-
-function gotMessage(msg) {
-    console.log(msg.content)
-    if (msg.content === 'mort') {
-        mortbotreplies = grammar.flatten('#origin#');
-        msg.reply(mortbotreplies);
-    } else if (msg.content === 'hello MORT') {
-        msg.reply('Hi')
-    } else {
-        sentence = rm.generateSentences()
-        msg.reply(sentence + " My goodly sir.");
-    }
-}
 
 //write a text file using the output of markovify
 
