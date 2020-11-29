@@ -6,7 +6,7 @@ var fs = require('fs');
 //import discord.js and login
 const Discord = require('discord.js');
 const client = new Discord.Client();
-client.login('NzgxMjU2MDQ0Nzk3MTAwMDQ0.X76_ZA.plUWCmTpsMZJEe7T31lrv1__6Xw');
+client.login('YOUR CLIENT KEY HERE');
 //connect to discord and let me know when you're ready to play
 client.on('ready', readyDiscord);
 
